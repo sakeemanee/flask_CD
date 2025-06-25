@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service
+    expose:
+      - "5001"
+
+  order-service:
+    build:
+      context: ./order-service
+    expose:
+      - "5002"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - user-service
+      - order-service
+
